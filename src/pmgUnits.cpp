@@ -87,11 +87,11 @@ const units::unitData& units::getUnit(typeId utype, unitId uid) const {
 
 bool units::noUnit(const units::unitData& unit) const { return unit.id == _noUnit.id; };
 
-sensorValue units::convertValue(const sensorValue& value, unitId fromUnit, unitId toUnit) const {
+unitValue units::convertValue(const unitValue& value, unitId fromUnit, unitId toUnit) const {
     return transformUnit(value, fromUnit, toUnit);
 };
 
-sensorValue units::transformUnit(const sensorValue& value, unitId fromUnit, unitId toUnit) const {
+unitValue units::transformUnit(const unitValue& value, unitId fromUnit, unitId toUnit) const {
 
     if (std::holds_alternative<std::monostate>(value)) return value;
 

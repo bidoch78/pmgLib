@@ -37,7 +37,7 @@ namespace pmg::core {
 
     using unitId = uint32_t;
     using typeId = uint32_t;
-    using sensorValue = std::variant<std::monostate, bool, int32_t, float, std::string>;
+    using unitValue = std::variant<std::monostate, bool, int32_t, float, std::string>;
 
     template<typename T>
     static constexpr unitId toUnitId(T id) { return static_cast<unitId>(id); }
@@ -103,19 +103,19 @@ namespace pmg::core {
             
             bool noUnit(const unitData& unit) const;
 
-            sensorValue convertValue(const sensorValue& value, unitId fromUnit, unitId toUnit) const;
-            sensorValue transformUnit(const sensorValue& value, unitId fromUnit, unitId toUnit) const;
+            unitValue convertValue(const unitValue& value, unitId fromUnit, unitId toUnit) const;
+            unitValue transformUnit(const unitValue& value, unitId fromUnit, unitId toUnit) const;
 
-//             static bool hasValue(const sensorValue& value) { return !std::holds_alternative<std::monostate>(value); }
+            static bool hasValue(const unitValue& value) { return !std::holds_alternative<std::monostate>(value); }
 
-//             template<typename T>
-//             static const T* getValue(const sensorValue& value) { return std::get_if<T>(&value); }
+            template<typename T>
+            static const T* getValue(const unitValue& value) { return std::get_if<T>(&value); }
 
-//             template<typename T>
-//             static T getValue(const sensorValue& value, T defaultValue) {
-//                 if (const T* v = std::get_if<T>(&value)) return *v;
-//                 return defaultValue;
-//             }
+            template<typename T>
+            static T getValue(const unitValue& value, T defaultValue) {
+                if (const T* v = std::get_if<T>(&value)) return *v;
+                return defaultValue;
+            }
 
     };
 
