@@ -52,7 +52,7 @@ std::vector<units::unitData> units::getUnits(typeId utype) const {
 
     return retUnit; 
 
-};
+}
 
 std::map<typeId, std::vector<units::unitData>> units::getAllUnits() const {
 
@@ -64,7 +64,7 @@ std::map<typeId, std::vector<units::unitData>> units::getAllUnits() const {
 
     return retUnits;
 
-};
+}
 
 const units::unitData& units::getUnit(unitId uid) const {
 
@@ -83,13 +83,13 @@ const units::unitData& units::getUnit(typeId utype, unitId uid) const {
 
     return it->second;
 
-};
+}
 
 bool units::noUnit(const units::unitData& unit) const { return unit.id == _noUnit.id; };
 
 unitValue units::convertValue(const unitValue& value, unitId fromUnit, unitId toUnit) const {
     return transformUnit(value, fromUnit, toUnit);
-};
+}
 
 unitValue units::transformUnit(const unitValue& value, unitId fromUnit, unitId toUnit) const {
 

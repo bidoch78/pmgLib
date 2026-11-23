@@ -1,49 +1,58 @@
-// #include <pmgHubSensor.h>
-// #include <pmgHubUnits.h>
+#include <pmgSensor.hpp>
+#include <pmgUnits.hpp>
 // #include <Arduino.h>
 
-// using namespace pmgHub;
+using namespace pmg::core;
 
-// sensor::sensor(sensorId sId, String sName, String sCat, const units::unitData& sUnit, uint32_t sRate)
-//          : _id(sId), _name(sName), _category(sCat), _unit(sUnit), _rate(sRate) {
+sensor::sensor(sensorId sId, const char* sName, const char* sCat, const units::unitData& sUnit, uint32_t sRate)
+          : _id(sId), _name(sName), _category(sCat), _unit(sUnit), _rate(sRate) {
 
-// };
+};
 
-// sensor::sensorId sensor::getId() const { return _id; };
-// // sensor::sensorCategory sensor::getCategory() const { return _category; };
-// // sensor::sensorType sensor::getType() const { return _type; };
-// uint32_t sensor::getRate() const { return _rate; };
-// const String& sensor::getName() const { return _name; };
-// const units::unitData sensor::getUnit() const { return _unit; };
+sensorId sensor::getId() const { return _id; };
+uint32_t sensor::getSampleRate() const { return _rate; };
+const std::string& sensor::getName() const { return _name; };
+const std::string& sensor::getCategory() const { return _category; };
 
-// bool sensor::isVirtual() const { return _unit.type == units::typeId(units::defaulUnitType::VIRTUAL); };
+const units::unitData sensor::getUnit() const { return _unit; };
 
-// uint32_t sensor::getLastRead() const { return _dataLastRead; };
-// uint32_t sensor::getCountRead() const { return _dataCountRead; };
-// void sensor::resetCountRead() { _dataCountRead = 0; };
-// void sensor::setSampleRate(uint32_t sRate) { _srate = sRate; };
-// void sensor::read(uint32_t w) { _dataLastRead = w; _dataCountRead++; };
+bool sensor::isVirtual() const { return _unit.type == typeId(unitTYPE::VIRTUAL); };
 
-// void sensor::setValue(const float volt, const units::sensorValue& val) {
+uint32_t sensor::getLastRead() const { return _dataLastRead; };
+uint32_t sensor::getCountRead() const { return _dataCountRead; };
+void sensor::resetCountRead() { _dataCountRead = 0; };
+void sensor::setSampleRate(uint32_t sRate) { _srate = sRate; };
+void sensor::read(uint32_t w) { _dataLastRead = w; _dataCountRead++; };
 
-//     _dataCountRead++;
-//     _readVoltage = volt;
-//     _readValue = val;
+void sensor::setValue(const float volt, const unitValue& val) {
 
-// };
+    _dataCountRead++;
+    _readVoltage = volt;
+    _readValue = val;
 
-// const units::sensorValue& sensor::getValue() const { return _readValue; }
+};
 
-// String sensor::getStringValue() {
+const unitValue& sensor::getValue() const { return _readValue; }
 
-//     return std::visit([](const auto& v) -> String {
+std::string sensor::getStringValue() {
+
+    return std::visit([](const auto& v) -> std::string {
         
-//         using T = std::decay_t<decltype(v)>;
+        using T = std::decay_t<decltype(v)>;
 
-//         if constexpr (std::is_same_v<T, std::monostate>) return "";
-//         else if constexpr (std::is_same_v<T, bool>) return v ? "true" : "false";
-//         else return String(v);
+        if constexpr (std::is_same_v<T, std::monostate>) {
+            return "";
+        }
+        else if constexpr (std::is_same_v<T, bool>) {
+            return v ? "true" : "false";
+        }
+        else if constexpr (std::is_same_v<T, std::string>) {
+            return v;
+        }
+        else if constexpr (std::is_arithmetic_v<T>) {
+            return std::to_string(v);
+        }
+        
+    }, _readValue);
 
-//     }, _readValue);
-
-// }
+}
