@@ -1,10 +1,10 @@
 #pragma once
 
 #include <cstdint>
-#include <map>
-// #include <vector>
+#include <vector>
 #include <variant>
 #include <string>
+#include <map>
 
 namespace pmg::core {
 
@@ -37,6 +37,7 @@ namespace pmg::core {
 
     using unitId = uint32_t;
     using typeId = uint32_t;
+    using sensorValue = std::variant<std::monostate, bool, int32_t, float, std::string>;
 
     template<typename T>
     static constexpr unitId toUnitId(T id) { return static_cast<unitId>(id); }
@@ -72,8 +73,6 @@ namespace pmg::core {
 
         public:
 
-            using sensorValue = std::variant<std::monostate, bool, int32_t, float, std::string>;
-
             struct unitData {
                 unitId id;
                 typeId type;
@@ -96,16 +95,16 @@ namespace pmg::core {
 
             void addUnit(const unitData& unit);
 
-//             std::vector<unitData> getUnits(typeId utype) const;
-//             std::map<typeId, std::vector<unitData>> getAllUnits() const;
+            std::vector<unitData> getUnits(typeId utype) const;
+            std::map<typeId, std::vector<unitData>> getAllUnits() const;
 
-//             const unitData& getUnit(unitId uid) const;
-//             const unitData& getUnit(typeId utype, unitId uid) const;
+            const unitData& getUnit(unitId uid) const;
+            const unitData& getUnit(typeId utype, unitId uid) const;
             
-//             bool noUnit(const unitData& unit) const;
+            bool noUnit(const unitData& unit) const;
 
-//             sensorValue convertValue(const sensorValue& value, unitId fromUnit, unitId toUnit) const;
-//             sensorValue transformUnit(const sensorValue& value, unitId fromUnit, unitId toUnit) const;
+            sensorValue convertValue(const sensorValue& value, unitId fromUnit, unitId toUnit) const;
+            sensorValue transformUnit(const sensorValue& value, unitId fromUnit, unitId toUnit) const;
 
 //             static bool hasValue(const sensorValue& value) { return !std::holds_alternative<std::monostate>(value); }
 

@@ -42,109 +42,109 @@ void units::addUnit(const units::unitData& unit) {
     _units.emplace(unit.id, unit);
 }
 
-// std::vector<units::unitData> units::getUnits(units::typeId utype) const {
+std::vector<units::unitData> units::getUnits(typeId utype) const {
 
-//     std::vector<unitData> retUnit;
+    std::vector<unitData> retUnit;
 
-//     for (const auto& [id, unit] : _units) {
-//         if (unit.type == utype) retUnit.push_back(unit);
-//     }
+    for (const auto& [id, unit] : _units) {
+        if (unit.type == utype) retUnit.push_back(unit);
+    }
 
-//     return retUnit; 
+    return retUnit; 
 
-// };
+};
 
-// std::map<units::typeId, std::vector<units::unitData>> units::units::getAllUnits() const {
+std::map<typeId, std::vector<units::unitData>> units::getAllUnits() const {
 
-//     std::map<typeId, std::vector<unitData>> retUnits;
+    std::map<typeId, std::vector<unitData>> retUnits;
 
-//     for (const auto& [id, unit] : _units) {
-//         retUnits[unit.type].push_back(unit);
-//     }
+    for (const auto& [id, unit] : _units) {
+        retUnits[unit.type].push_back(unit);
+    }
 
-//     return retUnits;
+    return retUnits;
 
-// };
+};
 
-// const units::unitData& units::getUnit(units::unitId uid) const {
+const units::unitData& units::getUnit(unitId uid) const {
 
-//     auto it = _units.find(uid);
-//     if (it == _units.end()) return _noUnit;
-//     return it->second;
+    auto it = _units.find(uid);
+    if (it == _units.end()) return _noUnit;
+    return it->second;
 
-// }
+}
 
-// const units::unitData& units::getUnit(units::typeId utype, units::unitId uid) const {
+const units::unitData& units::getUnit(typeId utype, unitId uid) const {
 
-//     auto it = _units.find(uid);
+    auto it = _units.find(uid);
 
-//     if (it == _units.end()) return _noUnit;
-//     if (it->second.type != utype) return _noUnit;
+    if (it == _units.end()) return _noUnit;
+    if (it->second.type != utype) return _noUnit;
 
-//     return it->second;
+    return it->second;
 
-// };
+};
 
-// bool units::noUnit(const units::unitData& unit) const { return unit.id == _noUnit.id; };
+bool units::noUnit(const units::unitData& unit) const { return unit.id == _noUnit.id; };
 
-// units::sensorValue units::convertValue(const sensorValue& value, units::unitId fromUnit, units::unitId toUnit) const {
-//     return transformUnit(value, fromUnit, toUnit);
-// };
+sensorValue units::convertValue(const sensorValue& value, unitId fromUnit, unitId toUnit) const {
+    return transformUnit(value, fromUnit, toUnit);
+};
 
-// units::sensorValue units::transformUnit(const sensorValue& value, units::unitId fromUnit, units::unitId toUnit) const {
+sensorValue units::transformUnit(const sensorValue& value, unitId fromUnit, unitId toUnit) const {
 
-//     if (std::holds_alternative<std::monostate>(value)) return value;
+    if (std::holds_alternative<std::monostate>(value)) return value;
 
-//     if (fromUnit == toUnit) return value;
+    if (fromUnit == toUnit) return value;
 
-//     const unitData& fUnit = getUnit(fromUnit);
-//     const unitData& tUnit = getUnit(toUnit);
+    const unitData& fUnit = getUnit(fromUnit);
+    const unitData& tUnit = getUnit(toUnit);
 
-//     if (noUnit(fUnit) || noUnit(tUnit)) return value;
-//     if (fUnit.type != tUnit.type) return value;
+    if (noUnit(fUnit) || noUnit(tUnit)) return value;
+    if (fUnit.type != tUnit.type) return value;
 
-//     //For all type we need a float value
-//     if (!std::holds_alternative<float>(value)) return value;
+    //For all type we need a float value
+    if (!std::holds_alternative<float>(value)) return value;
 
-//     float floatValue = std::get<float>(value);
+    float floatValue = std::get<float>(value);
 
-//     switch(fUnit.type) {
+    switch(fUnit.type) {
 
-//         case toTypeId(defaulUnitType::TEMPERATURE):
+        case toTypeId(unitTYPE::TEMPERATURE):
 
-//             if (fromUnit == toUnitId(defaultUnitId::CELSIUS) && toUnit == toUnitId(defaultUnitId::FAHRENHEIT)) {
-//                 return (floatValue * 9.0f / 5.0f) + 32.0f;
-//             }
-//             else if (fromUnit == toUnitId(defaultUnitId::FAHRENHEIT) && toUnit == toUnitId(defaultUnitId::CELSIUS)) {
-//                 return (floatValue - 32.0f) * 5.0f / 9.0f;
-//             }
+            if (fromUnit == toUnitId(unitID::CELSIUS) && toUnit == toUnitId(unitID::FAHRENHEIT)) {
+                return (floatValue * 9.0f / 5.0f) + 32.0f;
+            }
+            else if (fromUnit == toUnitId(unitID::FAHRENHEIT) && toUnit == toUnitId(unitID::CELSIUS)) {
+                return (floatValue - 32.0f) * 5.0f / 9.0f;
+            }
 
-//             break;
+            break;
         
-//         case toTypeId(defaulUnitType::FUELMIXTURE):
+        case toTypeId(unitTYPE::FUELMIXTURE):
 
-//             if (fromUnit == toUnitId(defaultUnitId::LAMBDA) && toUnit == toUnitId(defaultUnitId::AFR)) {
-//                 return floatValue * 14.7f;
-//             }
-//             else if (fromUnit == toUnitId(defaultUnitId::AFR) && toUnit == toUnitId(defaultUnitId::LAMBDA)) {
-//                 return floatValue / 14.7f;
-//             }
+            if (fromUnit == toUnitId(unitID::LAMBDA) && toUnit == toUnitId(unitID::AFR)) {
+                return floatValue * 14.7f;
+            }
+            else if (fromUnit == toUnitId(unitID::AFR) && toUnit == toUnitId(unitID::LAMBDA)) {
+                return floatValue / 14.7f;
+            }
 
-//             break;
+            break;
 
-//         case toTypeId(defaulUnitType::PRESSURE):
+        case toTypeId(unitTYPE::PRESSURE):
     
-//             if (fromUnit == toUnitId(defaultUnitId::BAR) && toUnit == toUnitId(defaultUnitId::PSI)) {
-//                 return floatValue * 14.5038f;
-//             }
-//             else if (fromUnit == toUnitId(defaultUnitId::PSI) && toUnit == toUnitId(defaultUnitId::BAR)) {
-//                 return floatValue * 0.0689476f;
-//             }
+            if (fromUnit == toUnitId(unitID::BAR) && toUnit == toUnitId(unitID::PSI)) {
+                return floatValue * 14.5038f;
+            }
+            else if (fromUnit == toUnitId(unitID::PSI) && toUnit == toUnitId(unitID::BAR)) {
+                return floatValue * 0.0689476f;
+            }
 
-//             break;
+            break;
 
-//     }
+    }
 
-//     return value;
+    return value;
 
-// }
+}
