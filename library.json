@@ -1,0 +1,9 @@
+{
+    "name": "pmg.core",
+    "version": "0.1.0",
+    "description": "PMG shared core library",
+    "build": {
+        "includeDir": "include",
+        "srcDir": "src"
+    }
+}
