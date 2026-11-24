@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cstdint>
 #include <vector>
 #include <variant>
 #include <string>
@@ -75,8 +74,8 @@ namespace pmg::core {
 
             struct unitData {
                 unitId id;
-                typeId type;
                 const char* unitName;
+                typeId type;
                 const char* typeName;
                 uint8_t decimals;
                 unitData(unitId uid, const char* uname, typeId utype, const char* tname, uint8_t udecimal): id(uid), unitName(uname), type(utype), typeName(tname), decimals(udecimal) {};
@@ -116,6 +115,8 @@ namespace pmg::core {
                 if (const T* v = std::get_if<T>(&value)) return *v;
                 return defaultValue;
             }
+
+            static std::string toString(const unitValue& value);
 
     };
 

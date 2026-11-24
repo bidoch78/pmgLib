@@ -1,0 +1,13 @@
+Global
+    => [MessageType][MessageSize] => [1-octet][2-octets][........]
+
+    => MessageType => sensors.value
+        => [count][sensor.id][rate][voltage][countvalue]UNITVALUE => [1-octet][2-octet][1-octet][1-octet]
+
+    => UNITVALUE
+        [unit.id] => [1 octet]
+        [unit.type] => [1 octet]
+        bool => [value] => [1-octet][1-octet]
+        int32_t => [value] => [1-octet][4-octet]
+        float => [value] => [1-octet][4-octet]
+        string => [length][value...octet] (max 255 characters)

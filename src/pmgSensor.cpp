@@ -34,25 +34,4 @@ void sensor::setValue(const float volt, const unitValue& val) {
 
 const unitValue& sensor::getValue() const { return _readValue; }
 
-std::string sensor::getStringValue() {
-
-    return std::visit([](const auto& v) -> std::string {
-        
-        using T = std::decay_t<decltype(v)>;
-
-        if constexpr (std::is_same_v<T, std::monostate>) {
-            return "";
-        }
-        else if constexpr (std::is_same_v<T, bool>) {
-            return v ? "true" : "false";
-        }
-        else if constexpr (std::is_same_v<T, std::string>) {
-            return v;
-        }
-        else if constexpr (std::is_arithmetic_v<T>) {
-            return std::to_string(v);
-        }
-        
-    }, _readValue);
-
-}
+std::string sensor::getStringValue() { return units::toString(_readValue); }

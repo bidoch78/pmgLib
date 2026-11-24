@@ -44,9 +44,6 @@ namespace pmg::core {
 
         private:
 
-            uint32_t _dataLastRead = 0;
-            uint32_t _dataCountRead = 0;
-
             sensorId _id;
             std::string _name;
             std::string _category;
@@ -54,6 +51,9 @@ namespace pmg::core {
             
             uint32_t _rate;
 
+            uint32_t _dataLastRead = 0;
+            uint32_t _dataCountRead = 0;
+        
             float _readVoltage;
             unitValue _readValue;
             uint32_t _srate;

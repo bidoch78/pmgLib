@@ -148,3 +148,26 @@ unitValue units::transformUnit(const unitValue& value, unitId fromUnit, unitId t
     return value;
 
 }
+
+std::string units::toString(const unitValue& value) {
+
+    return std::visit([](const auto& v) -> std::string {
+        
+        using T = std::decay_t<decltype(v)>;
+
+        if constexpr (std::is_same_v<T, std::monostate>) {
+            return "";
+        }
+        else if constexpr (std::is_same_v<T, bool>) {
+            return v ? "true" : "false";
+        }
+        else if constexpr (std::is_same_v<T, std::string>) {
+            return v;
+        }
+        else if constexpr (std::is_arithmetic_v<T>) {
+            return std::to_string(v);
+        }
+        
+    }, value);
+
+}
