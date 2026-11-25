@@ -35,3 +35,39 @@ void sensor::setValue(const float volt, const unitValue& val) {
 const unitValue& sensor::getValue() const { return _readValue; }
 
 std::string sensor::getStringValue() { return units::toString(_readValue); }
+
+sensor::sensorData sensor::getSensorData() const {
+
+    sensorData data;
+
+    data.id = _id;
+    data.rate = _srate;
+    data.voltage = _readVoltage;
+    data.values.emplace_back(_unit.id, _readValue);   
+   
+    return data;
+
+}
+
+sensor::sensorData sensor::getSensorData(const units& uref, const std::vector<unitId>& convert) const {
+    
+    sensorData data;
+
+    data.id = _id;
+    data.rate = _srate;
+    data.voltage = _readVoltage;
+
+    if (convert.size() == 0) {
+        data.values.emplace_back(_unit.id, _readValue);   
+    }
+    else {
+        
+        for (const auto& convToUnit : convert) {
+            data.values.emplace_back(convToUnit, uref.convertValue( _readValue, _unit.id, convToUnit));   
+        }
+
+    }
+
+    return data;
+
+}

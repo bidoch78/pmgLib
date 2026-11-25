@@ -1,6 +1,7 @@
 #pragma once
 
 #include <pmgUnits.hpp>
+#include <vector>
 
 namespace pmg::core {
 
@@ -42,6 +43,15 @@ namespace pmg::core {
 
     class sensor {
 
+        public:
+ 
+            struct sensorData {
+                sensorId id;
+                float voltage;
+                uint32_t rate;
+                std::vector<std::pair<unitId, unitValue>> values;
+            };
+
         private:
 
             sensorId _id;
@@ -80,6 +90,9 @@ namespace pmg::core {
             const unitValue& getValue() const;
             std::string getStringValue();
 
+            sensorData getSensorData() const;
+            sensorData getSensorData(const units& uref, const std::vector<unitId>& convert) const;
+      
     };
 
 }
