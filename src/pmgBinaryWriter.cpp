@@ -125,3 +125,11 @@ size_t binaryWriter::sizeOf(const std::vector<std::pair<unitId, unitValue>>& uVa
     return s + (addcountfield ? 1: 0);
 
 }
+
+size_t binaryWriter::sizeOf(const std::vector<sensor::sensorData>& uSensors, bool addcountfield) {
+
+    size_t s = 0;
+    
+    return s + (addcountfield ? 1: 0);
+
+}

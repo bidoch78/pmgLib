@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <cstddef>
 #include <pmgUnits.hpp>
+#include <pmgSensor.hpp>
 
 namespace pmg::core {
 
@@ -50,6 +51,7 @@ namespace pmg::core {
 
             static size_t sizeOf(const unitValue& uValue);
             static size_t sizeOf(const std::vector<std::pair<unitId, unitValue>>& uValues, bool addcountfield = false);
+            static size_t sizeOf(const std::vector<sensor::sensorData>& uSensors, bool addcountfield = false);
 
     };    
 
